@@ -1,9 +1,10 @@
 import { ulid } from "ulid";
 import AWS from "aws-sdk";
 import { RDS } from "@serverless-stack/node/rds";
-const dynamoDb = new AWS.RDSDataService();
+import handler from "../utils/handler";
+import rds from "../utils/rds";
 
-export async function main(event) {
+export const main = handler(async (event) => {
   // Request body is passed in as a JSON encoded string in 'event.body'
   const data = JSON.parse(event.body);
     const current = new Date;
@@ -19,18 +20,6 @@ export async function main(event) {
     {name: 'url', value: {stringValue: data.url}},
     {name: 'createdAt', value:{stringValue: newTime}}]],
   };
-
-  try {
-    await dynamoDb.batchExecuteStatement(params).promise();
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(params),
-    };
-  } catch (e) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: e.message }),
-    };
-  }
-}
+  await rds.action(params);
+  return params.parameterSets;
+});
