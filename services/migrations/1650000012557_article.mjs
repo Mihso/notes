@@ -6,7 +6,7 @@ import { Kysely } from "kysely";
 export async function up(db) {
   await db.schema
     .createTable("article")
-    .addColumn("articleID", "text", (col) => col.primaryKey())
+    .addColumn("articleid", "text", (col) => col.primaryKey())
     .addColumn("title", "text", (col) => col.notNull())
     .addColumn("url", "text", (col) => col.notNull())
     .addColumn("created", "timestamp", (col) => col.defaultTo("now()"))
