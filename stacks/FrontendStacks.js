@@ -1,6 +1,12 @@
 import { ReactStaticSite, use } from "@serverless-stack/resources";
 import { ApiStack } from "./ApiStack";
 import { StorageStack } from "./StorageStack";
+import { initTRPC } from "@trpc/server";
+import { z } from "zod";
+
+export const t = initTRPC.create();
+
+export const appRouter = t.router({})
 
 export function FrontendStack({ stack, app }) {
   const { api } = use(ApiStack);

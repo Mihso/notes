@@ -4,15 +4,12 @@ import rds from "../utils/rds";
 
 export const main = handler(async (event) => {
   // Request body is passed in as a JSON encoded string in 'event.body'
-  const data = JSON.parse(event.body)
   const params = {
     secretArn: RDS.db.secretArn,
     resourceArn: RDS.db.clusterArn,
-    sql: `Update article SET title = :title , url = :url WHERE articleid = '${event.pathParameters.id}'`,
+    sql: `DELETE from article WHERE articleid = '${event.pathParameters.id}'`,
     database: 'main',
-    parameterSets: [[
-    {name: 'title', value: {stringValue: data.title}}, 
-    {name: 'url', value: {stringValue: data.url}},]],
+    parameterSets: [[]],
   };
 
   console.log(params)
