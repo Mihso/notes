@@ -8,6 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'index_bundle.js',
+    publicPath: '/'
   },
   target: 'web',
   devServer: {
@@ -15,6 +16,8 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'public')
 },
+  magicHtml: true,
+  historyApiFallback: true,
     open: true,
     hot: true,
     liveReload: true,
@@ -43,7 +46,8 @@ module.exports = {
   
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html')
+      template: path.join(__dirname, 'public', '/index.html'),
+      publicPath: '/',
     })
   ]
 };

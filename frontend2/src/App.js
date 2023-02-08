@@ -4,7 +4,7 @@ import Routes from "./Routes";
 import "react";
 import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
-const App = () =>{
+export function App(){
   return (
     <div className="App container py-3">
       <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
@@ -19,8 +19,8 @@ const App = () =>{
             <LinkContainer to="/New">
               <Nav.Link>Create a New Note</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/login">
-              <Nav.Link>Login</Nav.Link>
+            <LinkContainer to="/test">
+              <Nav.Link>test</Nav.Link>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>
