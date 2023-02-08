@@ -7,7 +7,7 @@ export const main = handler(async (event) => {
   const params = {
     secretArn: RDS.db.secretArn,
     resourceArn: RDS.db.clusterArn,
-    sql: `SELECT * FROM article WHERE articleid = '${event.pathParameters.id}'`,
+    sql: `SELECT * FROM article`,
     database: 'main',
     parameterSets: [[]],
   };

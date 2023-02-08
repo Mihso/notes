@@ -1,7 +1,7 @@
-import { Api, use } from "@serverless-stack/resources";
+import { StackContext, Api, use } from "@serverless-stack/resources";
 import { StorageStack } from "./StorageStack";
 
-export function ApiStack({ stack, app }) {
+export function ApiStack({ stack, app }: StackContext) {
   const table = use(StorageStack);
 
   // Create the API
@@ -11,11 +11,15 @@ export function ApiStack({ stack, app }) {
         bind: [table],
       },
     },
+
+    cors: true,
+
     routes: {
       "POST /notes": "functions/create.main",
-      "GET /notes/{id}" : "functions/get.main",
+      "GET /notes" : "functions/get.main",
       "PUT /notes/{id}": "functions/update.main",
       "DELETE /notes/{id}": "functions/delete.main",
+      "ANY /trpc/{proxy+}": "server/trpc.handler",
     },
   });
 

@@ -1,19 +1,14 @@
-import { ReactStaticSite, use } from "@serverless-stack/resources";
+import { StaticSite, use } from "@serverless-stack/resources";
 import { ApiStack } from "./ApiStack";
-import { StorageStack } from "./StorageStack";
-import { initTRPC } from "@trpc/server";
-import { z } from "zod";
-
-export const t = initTRPC.create();
-
-export const appRouter = t.router({})
 
 export function FrontendStack({ stack, app }) {
   const { api } = use(ApiStack);
 
   // Define our React app
-  const site = new ReactStaticSite(stack, "ReactSite", {
-    path: "frontend",
+  const site = new StaticSite(stack, "ReactSite", {
+    path: "frontend2",
+    buildCommand: "npm start",
+    buildOutput: "dist",
     // Pass in our environment variables
     environment: {
       REACT_APP_API_URL: api.customDomainUrl || api.url,

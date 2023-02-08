@@ -25,6 +25,7 @@
     "@trpc/next": "^10.10.0",
     "@trpc/react-query": "^10.10.0",
     "@trpc/server": "^10.10.0",
+    "aws-sdk": "^2.1310.0",
     "date": "^2.0.2",
     "kysely": "^0.23.4",
     "ulid": "^2.3.0",
