@@ -16,10 +16,10 @@ export function ApiStack({ stack, app }: StackContext) {
 
     routes: {
       "POST /notes": "functions/create.main",
-      "GET /notes" : "functions/get.main",
+      "HEAD /notes" : "functions/get.main",
       "PUT /notes/{id}": "functions/update.main",
       "DELETE /notes/{id}": "functions/delete.main",
-      "ANY /trpc/{proxy+}": "server/trpc.handler",
+      "GET /trpc/{proxy+}": "server/trpc.handler",
     },
   });
 

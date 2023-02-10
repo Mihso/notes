@@ -1,6 +1,6 @@
 import { StorageStack } from "./StorageStack";
 import { ApiStack } from "./ApiStack";
-import { FrontendStack } from "./FrontendStacks";
+import { FrontendStack } from "./FrontendStacks.js";
 export default function main(app) {
   app.setDefaultFunctionProps({
     runtime: "nodejs16.x",
