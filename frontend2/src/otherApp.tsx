@@ -10,17 +10,17 @@ export function OtherApp() {
     trpc.createClient({
       links : [
         httpBatchLink({
-          url: "https://5pfs82ij3i.execute-api.us-east-1.amazonaws.com/trpc",//`${import.meta.env.REACT_APP_API_URL}/trpc`,
-          fetch(url){
-            const output = fetch(url, {
+          url: `https://5pfs82ij3i.execute-api.us-east-1.amazonaws.com/trpc`,
+          // fetch(url){
+          //   const output = fetch(url, {
               
-              method: 'GET',
-              mode: "cors",
-              credentials: 'include',
+          //     method: 'POST',
+          //     mode: "cors",
+          //     credentials: 'include',
               
-            });
-            return output
-          },
+          //   });
+          //   return output
+          // },
         }),
       ]
     }),

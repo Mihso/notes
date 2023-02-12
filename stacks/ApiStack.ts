@@ -15,10 +15,11 @@ export function ApiStack({ stack, app }: StackContext) {
     cors: true,
 
     routes: {
-      "POST /notes": "functions/create.main",
-      "HEAD /notes" : "functions/get.main",
-      "PUT /notes/{id}": "functions/update.main",
-      "DELETE /notes/{id}": "functions/delete.main",
+      // " /notes": "functions/create.main",
+      "GET /notes" : "functions/get.main",
+      // "PUT /notes/{id}": "functions/update.main",
+      // "DELETE /notes/{id}": "functions/delete.main",
+      "POST /trpc/{proxy+}" : "server/trpc.handler",
       "GET /trpc/{proxy+}": "server/trpc.handler",
     },
   });

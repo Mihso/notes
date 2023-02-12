@@ -1,10 +1,10 @@
 import { ulid } from "ulid";
 import AWS from "aws-sdk";
 import { RDS } from "@serverless-stack/node/rds";
-import handler from "../utils/handler";
+import handle from "../utils/handler";
 import rds from "../utils/rds";
 
-export const main = handler(async (event) => {
+export const main = handle(async (event: any) => {
   // Request body is passed in as a JSON encoded string in 'event.body'
   const data = JSON.parse(event.body);
     const current = new Date;

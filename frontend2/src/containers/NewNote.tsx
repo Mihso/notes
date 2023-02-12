@@ -3,42 +3,45 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import "./NewNote.css";
+import { trpc } from "../trpc";
+
 
 export default function NewNote() {
+  const mutater = trpc.createArticles.useMutation();
   const nav = useNavigate();
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function handleTitleChange(event) {
+  function handleTitleChange(event : any) {
     setTitle(event.title);
     console.log(title);
   }
 
-  function handleUrlChange(event){
+  function handleUrlChange(event : any){
     setUrl(event.url);
     console.log(url)
   }
-
-  async function handleSubmit(event) {
+  async function add() {
+    console.log(title,url);
+    try{
+    const mutation = mutater.mutateAsync({title: title, url: url}, {onError: newdata => console.log(newdata)});
+    setTitle("");
+    setUrl("");
+    mutater.reset();
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+  async function handleSubmit(event : any) {
     event.preventDefault();
     handleTitleChange(event)
     handleUrlChange(event)
   
     setIsLoading(true);
     try {
-      await fetch("https://5pfs82ij3i.execute-api.us-east-1.amazonaws.com", {
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-      mode: "cors",
-      method: "POST",
-      body: {
-        "title" : title,
-        "url" : url,
-      }
-      });
+      add();
       nav("/");
     } catch (e) {
       console.log(e);
@@ -46,9 +49,6 @@ export default function NewNote() {
     }
   }
 
-  
-  function createNote(note) {
-  }
   return (
     <div className="NewNote">
       <Form onSubmit={handleSubmit}>
@@ -61,7 +61,7 @@ export default function NewNote() {
           />
         </Form.Group>
         <Form.Group controlId="url">
-            <Form.Label>Url</Form.Label>
+            <Form.Label>Comments</Form.Label>
             <Form.Control 
             value={url}
             as="textarea"

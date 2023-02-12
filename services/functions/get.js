@@ -1,20 +1,19 @@
-import handler from "../utils/handler";
+import handle from "../utils/handler";
 import { RDS } from "@serverless-stack/node/rds";
 import rds from "../utils/rds";
 
-export const main = handler(async (event) => {
+export const main = handle(async (event) => {
   // Request body is passed in as a JSON encoded string in 'event.body'
   const params = {
     secretArn: RDS.db.secretArn,
     resourceArn: RDS.db.clusterArn,
     sql: `SELECT * FROM article`,
     database: 'main',
-    parameterSets: [[]],
   };
 
   console.log(params)
 
-  const result = rds.action(params);
+  const result = (await rds.getter(params)).promise();
   if (!result) {
     throw new Error("Item not found.");
   }

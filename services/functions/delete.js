@@ -1,8 +1,8 @@
-import handler from "../utils/handler";
+import handle from "../utils/handler";
 import { RDS } from "@serverless-stack/node/rds";
 import rds from "../utils/rds";
 
-export const main = handler(async (event) => {
+export const main = handle(async (event) => {
   // Request body is passed in as a JSON encoded string in 'event.body'
   const params = {
     secretArn: RDS.db.secretArn,

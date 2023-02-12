@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./containers/Home";
+import Home from "./containers/Home.tsx";
 import NotFound from "./containers/NotFound";
 import { MyComponent } from "./containers/test";
 import NewNote from "./containers/NewNote";

@@ -2,11 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './src/index.css';
 import { HashRouter, BrowserRouter } from 'react-router-dom';
-import App from './src/App';
 import { OtherApp } from './src/otherApp';
 import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from './src/reportWebVitals';
-import { BrowserRouter as Router } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
