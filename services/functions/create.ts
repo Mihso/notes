@@ -20,6 +20,6 @@ export const main = handle(async (event: any) => {
     {name: 'url', value: {stringValue: data.url}},
     {name: 'createdAt', value:{stringValue: newTime}}]],
   };
-  await rds.action(params);
+  await rds.batcher(params);
   return params.parameterSets;
 });

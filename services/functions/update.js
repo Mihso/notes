@@ -8,7 +8,7 @@ export const main = handler(async (event) => {
   const params = {
     secretArn: RDS.db.secretArn,
     resourceArn: RDS.db.clusterArn,
-    sql: `Update article SET title = :title , url = :url WHERE articleid = '${event.pathParameters.id}'`,
+    sql: `Update article SET url = :url WHERE articleid = '${event.pathParameters.id}'`,
     database: 'main',
     parameterSets: [[
     {name: 'title', value: {stringValue: data.title}}, 
@@ -17,6 +17,6 @@ export const main = handler(async (event) => {
 
   console.log(params)
 
-  await rds.action(params);
-  return { status: true };;
+  await rds.batcher(params);
+  return { status: true };
 });

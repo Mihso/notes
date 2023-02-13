@@ -15,17 +15,14 @@ export default function NewNote() {
 
   function handleTitleChange(event : any) {
     setTitle(event.title);
-    console.log(title);
   }
 
   function handleUrlChange(event : any){
     setUrl(event.url);
-    console.log(url)
   }
   async function add() {
-    console.log(title,url);
     try{
-    const mutation = mutater.mutateAsync({title: title, url: url}, {onError: newdata => console.log(newdata)});
+    mutater.mutate({title: title, url: url}, {onError: newdata => console.log(newdata)});
     setTitle("");
     setUrl("");
     mutater.reset();
@@ -52,16 +49,16 @@ export default function NewNote() {
   return (
     <div className="NewNote">
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="title">
-          <Form.Label>Title</Form.Label>
+        <Form.Group controlId="task">
+          <Form.Label>Task</Form.Label>
           <Form.Control
             value={title}
             as="textarea"
             onChange={(e) => setTitle(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId="url">
-            <Form.Label>Comments</Form.Label>
+        <Form.Group controlId="description">
+            <Form.Label>Description</Form.Label>
             <Form.Control 
             value={url}
             as="textarea"

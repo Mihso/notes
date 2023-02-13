@@ -1,10 +1,9 @@
 import { StackContext, Api, use } from "@serverless-stack/resources";
 import { StorageStack } from "./StorageStack";
 
-export function ApiStack({ stack, app }: StackContext) {
+export function ApiStack({ stack }: StackContext) {
   const table = use(StorageStack);
 
-  // Create the API
   const api = new Api(stack, "Api", {
     defaults: {
       function: {
@@ -15,16 +14,12 @@ export function ApiStack({ stack, app }: StackContext) {
     cors: true,
 
     routes: {
-      // " /notes": "functions/create.main",
       "GET /notes" : "functions/get.main",
-      // "PUT /notes/{id}": "functions/update.main",
-      // "DELETE /notes/{id}": "functions/delete.main",
       "POST /trpc/{proxy+}" : "server/trpc.handler",
       "GET /trpc/{proxy+}": "server/trpc.handler",
     },
   });
 
-  // Show the API endpoint in the output
   stack.addOutputs({
     ApiEndpoint: api.url,
   });

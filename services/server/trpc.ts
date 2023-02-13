@@ -1,12 +1,10 @@
 import * as trpc from '../../frontend/node_modules/@trpc/server/dist';
 import { z } from "zod";
 import { ulid } from "ulid";
-import AWS from "aws-sdk";
 import { RDS } from "@serverless-stack/node/rds";
 import rds from "../utils/rds";
-import handle from '../utils/handler';
 import { CreateAWSLambdaContextOptions, awsLambdaRequestHandler } from '@trpc/server/adapters/aws-lambda';
-import { APIGatewayProxyEvent, APIGatewayProxyEventV2 } from 'aws-lambda';
+import { APIGatewayProxyEvent} from 'aws-lambda';
 
 // You can use any variable name you like.
 // We use t to keep things simple.
@@ -30,7 +28,7 @@ type Context = trpc.inferAsyncReturnType<typeof createContext>;
 export const t = trpc.initTRPC.context<Context>().create();
 const publicProcedure = t.procedure;
 const appRouter = t.router({
-    hello : publicProcedure
+    hello : publicProcedure // done for testing
     .input(z.object({
             text:z.string().nullish(),
         })
@@ -39,7 +37,7 @@ const appRouter = t.router({
             greeting: `you slay ${input?.text ?? 'world'}` 
         };
       }),
-    bye : publicProcedure
+    bye : publicProcedure // done for testing
     .input(
         z
         .object({
@@ -55,8 +53,6 @@ const appRouter = t.router({
       z.object({
         title: z.string(), url: z.string()})).mutation(({input})=>{
           console.log(input);
-            const current = new Date;
-            let newTime = current.toISOString();
           const params = {
             secretArn: RDS.db.secretArn,
             resourceArn: RDS.db.clusterArn,
@@ -67,7 +63,7 @@ const appRouter = t.router({
             {name: 'title', value: {stringValue: input.title}}, 
             {name: 'url', value: {stringValue: input.url}},]],
           };
-          rds.action(params);
+          rds.batcher(params);
   return{
     message: "done",
   }}),
@@ -78,12 +74,11 @@ const appRouter = t.router({
         const params = {
           secretArn: RDS.db.secretArn,
           resourceArn: RDS.db.clusterArn,
-          sql: `DELETE from article WHERE articleid = '${input.id}'`,
+          sql: `DELETE FROM article WHERE articleid='${input.id}'`,
           database: 'main',
         };
       
-        console.log(params)
-        rds.action(params);
+        rds.getter(params).promise();
 return{
   message: "done",
 }}),
@@ -97,17 +92,26 @@ GetArticle: publicProcedure.query(async()=>{
       };
       let result = await rds.getter(params).promise();
       let vals = result.records;
-      console.log(vals)
-    //   if(vals != undefined){
-      
-    //     for(let i of vals){
-    //       output.push(i);
-    //   }
-    // }
-      // const result2 = run().then((output)=>{console.log(output)});
   return{
       vals : vals,
-}})
+}}),
+UpdateArticle: publicProcedure.input(
+  z.object({
+    id: z.string(), url: z.string()})).mutation(({input})=>{
+      console.log(input);
+      const params = {
+        secretArn: RDS.db.secretArn,
+        resourceArn: RDS.db.clusterArn,
+        sql: `Update article SET url = :url WHERE articleid='${input.id}'`,
+        database: 'main',
+        parameterSets: [[ 
+        {name: 'url', value: {stringValue: input.url}},]],
+      };
+    
+      rds.getter(params);
+return{
+message: "done",
+}}),
 });
 
 export type Router = typeof appRouter;

@@ -14,6 +14,6 @@ export const main = handle(async (event) => {
 
   console.log(params)
 
-  await rds.action(params);
+  await rds.batcher(params);
   return { status: true };;
 });

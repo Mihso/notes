@@ -1,23 +1,14 @@
 import "./Home.css";
-import React, { useEffect,useState } from "react";
+import React from "react";
 import { trpc } from "../trpc";
 import { Table } from "semantic-ui-react";
+
 export default function Home() {
-  const [lister, setLister] = useState([]);
-  const listings = trpc.GetArticle.useQuery();
+  let listings = trpc.GetArticle.useQuery();
   let listur = listings.data?.vals;
-  // let final = fetch('https://5pfs82ij3i.execute-api.us-east-1.amazonaws.com/notes',{
-  // headers: {
-  //   'Access-Control-Allow-Origin' : '*',
-  //   'Content-Type':'application/json'},
-  // method: 'GET',
-  // mode: "cors",
-  // credentials: 'include',
-  // })
-    
-  // })
+  const delet = trpc.DeleteArticle.useMutation({onSuccess: ()=>listings.refetch()});
+  const upD = trpc.UpdateArticle.useMutation({onSuccess: ()=>listings.refetch()});  
   function lis(value : any){
-    console.log(value)
           return(
           <tr key={value[0].stringValue}>
           <td>
@@ -29,24 +20,26 @@ export default function Home() {
             <td>
             {value[3].stringValue}
           </td>
+          <td>
+            <button onClick={() => {delet.mutate({id: value[0].stringValue});listings.refetch.apply} }>Complete</button>
+          </td>
           </tr>
           )
   }
-
+  listings.refetch()
   return (
     <div className="Home">
       <div className="lander">
-        <h1>Scratch</h1>
-        <p className="text-muted">A simple note taking app</p>
+        <h1>Duties</h1>
+        <p className="text-muted">A simple task management application</p>
       </div>
-      <button hidden={listings.isLoading} onClick={() => console.log(listur)}>click here</button>
-      <div>
-      <Table className="text-muted">
+      <Table hidden={listings.isLoading} className="text-muted">
           <thead>
             <tr>
             <th>Task</th>
-            <th>Comments</th>
+            <th>Description</th>
             <th>Date made</th>
+            <th>Completed?</th>
             </tr>
           </thead>
           <tbody>
@@ -56,6 +49,5 @@ export default function Home() {
         </tbody>
         </Table>
       </div>
-    </div>
   );
 }
