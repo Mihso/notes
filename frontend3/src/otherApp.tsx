@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import App from './App';
 import { trpc } from './trpc';
 export function OtherApp() {
-  console.log(import.meta.env.VITE_APP_API_URL)
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => 
     trpc.createClient({
