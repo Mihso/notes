@@ -4,11 +4,12 @@ import { trpc } from "../trpc";
 import { Table } from "semantic-ui-react";
 
 export default function Home() {
-  let listings = trpc.GetArticle.useQuery();
+  let listings = trpc.GetArticle.useQuery(undefined,{refetchInterval: 300});
   let listur = listings.data?.vals;
   const delet = trpc.DeleteArticle.useMutation({onSuccess: ()=>listings.refetch()});
-  const upD = trpc.UpdateArticle.useMutation({onSuccess: ()=>listings.refetch()});  
+  // const upD = trpc.UpdateArticle.useMutation({onSuccess: ()=>listings.refetch()});  
   function lis(value : any){
+    listings.refetch();
           return(
           <tr key={value[0].stringValue}>
           <td>
@@ -26,13 +27,14 @@ export default function Home() {
           </tr>
           )
   }
-  listings.refetch()
+
   return (
     <div className="Home">
       <div className="lander">
         <h1>Duties</h1>
         <p className="text-muted">A simple task management application</p>
       </div>
+      <div hidden={listings.isFetched}>Loading</div>
       <Table hidden={listings.isLoading} className="text-muted">
           <thead>
             <tr>
