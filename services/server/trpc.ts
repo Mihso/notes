@@ -1,4 +1,4 @@
-import * as trpc from '../../frontend/node_modules/@trpc/server/dist';
+import * as trpc from '../../frontend3/node_modules/@trpc/server/dist';
 import { z } from "zod";
 import { ulid } from "ulid";
 import { RDS } from "@serverless-stack/node/rds";
@@ -115,7 +115,6 @@ message: "done",
 });
 
 export type Router = typeof appRouter;
-
 
 export const handler = awsLambdaRequestHandler({
     router: appRouter,

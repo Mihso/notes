@@ -6,13 +6,13 @@ export function FrontendStack({ stack, app }) {
 
   // Define our React app
   const site = new StaticSite(stack, "ReactSite", {
-    path: "frontend2",
+    path: "frontend3",
     buildCommand: "npm run build",
     buildOutput: "dist",
     // Pass in our environment variables
     environment: {
-      REACT_APP_API_URL: api.customDomainUrl || api.url,
-      REACT_APP_REGION: app.region,
+      VITE_APP_API_URL: api.customDomainUrl || api.url,
+      VITE_APP_REGION: app.region,
     },
   });
 

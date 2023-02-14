@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 import App from './App';
 import { trpc } from './trpc';
 export function OtherApp() {
-  console.log(process.env.REACT_APP_API_URL)
+  console.log(import.meta.env.VITE_APP_API_URL)
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => 
     trpc.createClient({
       links : [
         httpBatchLink({
-          url: `${process.env.REACT_APP_API_URL}/trpc`,
+          url: `${import.meta.env.VITE_APP_API_URL}/trpc`,
         }),
       ]
     }),

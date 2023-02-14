@@ -1,10 +1,11 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const {SourceMapDevToolPlugin} = require('webpack')
 
 module.exports = {
-  entry: './index.tsx',
+  entry: './index.js',
   mode: 'development',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -60,6 +61,10 @@ module.exports = {
     }),
     new SourceMapDevToolPlugin({
       filename: "[file].map"
+    }),
+    new Dotenv({
+      path: path.resolve('.env'),
+      prefix: 'process.env.',
     }),
   ]
 };
